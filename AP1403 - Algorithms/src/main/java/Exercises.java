@@ -92,8 +92,28 @@ public class Exercises {
         if you're familiar with lists and arraylists, you can also edit method's body to use them instead of array
     */
 
-    public int[][] intPartitions(int number) {
-        return null;
+    public static int[][] intPartitions(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        generatePartitions(n, n, new ArrayList<>(), result);
+
+        int[][] finalResult = new int[result.size()][];
+        for (int i = 0; i < result.size(); i++) {
+            finalResult[i] = result.get(i).stream().mapToInt(Integer::intValue).toArray();
+        }
+        return finalResult;
+    }
+
+    private static void generatePartitions(int n, int max, List<Integer> current, List<List<Integer>> result) {
+        if (n == 0) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        for (int i = Math.min(max, n); i >= 1; i--) {
+            current.add(i);
+            generatePartitions(n - i, i, current, result);
+            current.remove(current.size() - 1);
+        }
     }
 
 
